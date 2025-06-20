@@ -78,7 +78,7 @@ let books = [
   {
     title: "Demons",
     published: 1872,
-    author: "Fyodor DOstoevsky",
+    author: "Fyodor Dostoevsky",
     id: "afa5de04-344d-11e9-a414-719c6709cf3e",
     genres: ["classic", "revolution"],
   },
@@ -89,16 +89,45 @@ let books = [
 */
 
 const typeDefs = `
+  type Book {
+    title: String!
+    author: String!
+    published: Int!
+    genres: [String!]!
+  }
+  
+  type Author {
+    name: String!
+    born: Int
+    bookCount: Int!
+  }
+
   type Query {
     bookCount: Int!
     authorCount: Int!
+    allBooks: [Book!]!
+    allAuthors: [Author!]!
+    Author: [Author]
   }
 `;
 
 const resolvers = {
   Query: {
-    bookCount: () => books.length,
+    bookCount: (root) => {
+      if (!root.name) {
+        books.length;
+      }
+
+      return books.filter((book) => book.author === root.author).length;
+    },
     authorCount: () => authors.length,
+    allBooks: () => books,
+    allAuthors: () => authors,
+  },
+  Author: {
+    bookCount: (author) => {
+      return books.filter((book) => book.author === author.name).length;
+    },
   },
 };
 
