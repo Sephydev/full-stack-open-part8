@@ -96,12 +96,14 @@ const typeDefs = `
     author: String!
     published: Int!
     genres: [String!]!
+    id: ID!
   }
   
   type Author {
     name: String!
     born: Int
     bookCount: Int!
+    id: ID!
   }
 
   type Mutation {
@@ -164,10 +166,10 @@ const resolvers = {
         });
       }
 
-      const book = { ...args, id: uuid };
+      const book = { ...args, id: uuid() };
       books = books.concat(book);
 
-      const author = { name: args.author, id: uuid };
+      const author = { name: args.author, id: uuid() };
       authors = authors.concat(author);
 
       return book;

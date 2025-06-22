@@ -5,6 +5,7 @@ import NewBook from "./components/NewBook";
 
 const App = () => {
   const [page, setPage] = useState("authors");
+  const [error, setError] = useState(null);
 
   return (
     <div>
@@ -18,7 +19,7 @@ const App = () => {
 
       <Books show={page === "books"} />
 
-      <NewBook show={page === "add"} />
+      <NewBook show={page === "add"} setError={setError} setPage={setPage} />
     </div>
   );
 };
