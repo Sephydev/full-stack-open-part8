@@ -157,7 +157,7 @@ const resolvers = {
   },
   Mutation: {
     addBook: (root, args) => {
-      if (books.find((book) => book.title === args.name)) {
+      if (books.find((book) => book.title === args.title)) {
         throw new GraphQLError("name must be unique", {
           extensions: {
             code: "BAD_USER_INPUT",
