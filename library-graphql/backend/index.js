@@ -146,7 +146,16 @@ const resolvers = {
     bookCount: (root, args) => Book.collection.countDocuments(),
     authorCount: () => Author.collection.countDocuments(),
     allBooks: async (root, args) => {
-      return await Book.find({}).populate("author");
+      if (!args.author && !args.genre) {
+        return await Book.find({}).populate("author");
+      }
+
+      if (!args.genre) {
+        const author = await Author.findOne({ name: args.author });
+        return await Book.find({ author: author._id }).populate("author");
+      }
+
+      return await Book.find({ genres: args.genre }).populate("author");
     },
     allAuthors: async () => {
       return await Author.find({});
